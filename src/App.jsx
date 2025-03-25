@@ -4,7 +4,7 @@ import Cards from './Components/Cards'
 
 function App() {
 
-  let initialState = { isFavourite: false, isRead: false, isUnread: false }
+  let initialState = { isFavourite: false, isRead: false }
 
   const [data, setData] = useState([])
   const [emailBody, setEmailBody] = useState('')
