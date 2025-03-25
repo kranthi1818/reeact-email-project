@@ -12,15 +12,7 @@ function App() {
 
   let [filterType, setFilterType] = useState('all')
 
-  function handleFavouriteClick(id) {
-    let toggleFavourite = data.map((email) => (
-      email.id === id ? { ...email, isFavourite: !email.isFavourite } : email
-    ))
-    setData(toggleFavourite)
-  }
-
-
-
+  
   useEffect(() => {
     const fetchEmails = async () => {
       try {
@@ -65,9 +57,9 @@ function App() {
   }, [filterType]);
 
   const filteredEmails = data.filter((email) => {
-    if (filterType === 'read') return email.isRead;
+    if (filterType === 'read') return email.isRead || selectedId === email.id
     if (filterType === 'unread') return !email.isRead || selectedId === email.id; 
-    if (filterType === 'favourites') return email.isFavourite;
+    if (filterType === 'favourites') return email.isFavourite || selectedId === email.id
     if (filterType === 'all') return email;  
 
     return true; 
@@ -76,11 +68,19 @@ function App() {
   const handleOpenEmail = (id) => {
     setData(prevData =>
         prevData.map(email =>
-            email.id === id ? { ...email, isRead: true, isUnread: false } : email
+            email.id === id ? { ...email, isRead: true} : email
         )
     );
     setSelectedId(id);
+    
 };
+function handleFavouriteClick(id) {
+  setData((prevData) =>
+    prevData.map((email) =>
+      email.id === id ? { ...email, isFavourite: !email.isFavourite } : email
+    )
+  );
+}
 
 
 
